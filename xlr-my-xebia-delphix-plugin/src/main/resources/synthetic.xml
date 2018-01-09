@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2017 XEBIALABS
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+-->
+
+<synthetic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.xebialabs.com/deployit/synthetic"
+  xsi:schemaLocation="http://www.xebialabs.com/deployit/synthetic synthetic.xsd">
+
+  <type type="delphix.Server" extends="configuration.HttpConnection">
+  </type>
+  <type type="delphix.LoadData" extends="xlrelease.PythonScript">
+    <property name="server" kind="ci" referenced-type="delphix.Server" category="input"/>
+    <property name="dataVersion" category="input"/>
+    <property name="status" category="output"/>
+  </type>
+
+ <type type="delphix.CreateVirtualDatabase" extends="delphix.RunCommandLine">
+    <property name="dxToolkitScript" default="dx_provision_vdb.pl" category="input" hidden="true"/>
+  </type>
+
+  <type type="delphix.RunCommandLine" extends="remoteScript.Unix">
+    <property name="taskColor" hidden="true" default="#009896"/>
+    <property name="scriptLocation" hidden="true" default="delphix/run-pl-command.py" />
+    <property name="scriptTemplate" hidden="true" default="delphix/run-pl-command.template.sh" />
+    <property name="script" size="large" hidden="true"  default="XXX" category="input" description="Shell script to execute on the remote host"/>
+    <property name="serverDelphix" category="input" />
+    <property name="dxToolkitHome" category="input" default="/u02/dxtoolkit" />
+    <property name="dxToolkitScript" category="input" />
+    <property name="sourceDatabaseName" category="input" />
+    <property name="targetDatabaseName" category="input" />
+    <property name="groupName" category="input" />
+    <property name="targetName" category="input" />
+    <property name="databaseType" category="input" default="oracle"/>
+    <property label="DB_HOME" name="DB_HOME" category="input" default="/u01/app/oracle/product/11.2.0/dbhome_1"/>
+
+    <property name="sudoUsername" category="Xinput" kind="string" required="false" hidden="true" default="" label="SUDO username" description="Username to sudo to when accessing files or executing commands"/>
+    <property name="suUsername" category="Xinput" kind="string" required="false"  hidden="true" default="" label="SU username" description="Username to su to when accessing files or executing commands"/>
+    <property name="suPassword" category="Xinput" kind="string" required="false" hidden="true" default="" password="true" label="SU password" description="Password of user to su to when accessing files or executing commands"/>
+    <property name="jumpstation" category="Xinput" kind="ci" required="false" referenced-type="remoteScript.Jumpstation"
+                  description="Jumpstation that should be used to reach this host."/>
+  </type>
+
+
+<type type="mydelphix.ManageDelphixDatabase" extends="xlrelease.PythonScript">
+    <property name="scriptLocation" hidden="true" default="mydelphix/run-pl-command.py" />
+    <property name="scriptTemplate" hidden="true" default="mydelphix/run-pl-command.template.sh" />
+    <property name="serverDelphix" category="input" hidden="false"/>
+    <property name="DatabaseName" category="input" hidden="false"/>
+    <property name="DelphixUser" default="delphix_admin" category="input" hidden="true"/>
+    <property name="DelphixPasswd" default="landshark" category="input" hidden="true"/>
+    <property name="Action" category="input" hidden="false"/>
+
+    <property name="sudoUsername" category="Xinput" kind="string" required="false" hidden="true" default="" label="SUDO username" description="Username to sudo to when accessing files or executing commands"/>
+    <property name="suUsername" category="Xinput" kind="string" required="false"  hidden="true" default="" label="SU username" description="Username to su to when accessing files or executing commands"/>
+    <property name="suPassword" category="Xinput" kind="string" required="false" hidden="true" default="" password="true" label="SU password" description="Password of user to su to when accessing files or executing commands"/>
+    <property name="jumpstation" category="Xinput" kind="ci" required="false" referenced-type="remoteScript.Jumpstation"
+                  description="Jumpstation that should be used to reach this host."/>
+  </type>
+
+
+
+</synthetic>
